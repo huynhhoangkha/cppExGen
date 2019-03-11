@@ -151,7 +151,6 @@ void test(char* argv[]){
             exRunCommand[idx++] = '>';
             strcpy(exRunCommand + idx, exerciseExecuteResult);
             system(exRunCommand);
-            cout << exRunCommand << endl;
 
             //Deallocate dynamic memory
             delete[] exRunCommand;
