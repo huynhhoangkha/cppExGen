@@ -108,8 +108,10 @@ void test(){
                 cout << "PASSED." << endl;
                 passCount++;
             }
-            else cout << "FAILED." << endl;
-            cout << "Result: " << endl << exerciseOuput << endl << "Expected: " << endl << solutionOuput << endl;
+            else {
+                cout << "FAILED." << endl;
+                cout << "Result: " << endl << exerciseOuput << endl << "Expected: " << endl << solutionOuput << endl;
+            }
         }
     }
     cout << "\nPASSED: " << passCount << "/" << testCount << endl;
