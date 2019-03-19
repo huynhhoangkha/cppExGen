@@ -196,6 +196,7 @@ void test(char* argv[]){
     ifs.close();
     system("del testcasesList.txt");
     system("del exerciseResult.txt");
+	system("del exercise.exe");
 }
 
 int main(int argc, char* argv[]) {
