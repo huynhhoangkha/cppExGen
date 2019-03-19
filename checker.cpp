@@ -188,7 +188,7 @@ void test(char* argv[]){
             }
             else {
                 cout << "FAILED." << endl;
-                cout << "Result: " << endl << exerciseOuput << endl << "Expected: " << endl << solutionOuput << endl;
+                cout << "Result: " << endl << exerciseOuput << "Expected: " << endl << solutionOuput;
             }
         }
     }
