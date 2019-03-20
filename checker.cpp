@@ -116,7 +116,18 @@ void build(char* argv[]){
     delete[] exerciseBuildCommand;
 }
 
-void test(char* argv[]){
+void test(int argc, char* argv[]){
+    if (argc > 3) {
+        char* genCommand = new char[strlen(argv[0]) + strlen("gen") + strlen(argv[3]) + 3];
+        int idx = 0;
+        strcpy(genCommand, argv[0]); idx += strlen(argv[0]);
+        genCommand[idx++] = ' ';
+        strcpy(genCommand + idx, "gen"); idx += strlen("gen");
+        genCommand[idx++] = ' ';
+        strcpy(genCommand + idx, argv[3]);
+        cout << genCommand << endl;
+        system(genCommand);
+    }
     const char* exerciseFileName = "exercise.exe";
     const char* testcasesDir = "testcases";
     const char* exerciseExecuteResult = "exerciseResult.txt";
@@ -205,7 +216,7 @@ int main(int argc, char* argv[]) {
         if (strcmp(argv[1], "gen") == 0) gen(argv);
         else if (strcmp(argv[1], "test") == 0) {
             build(argv);
-            test(argv);
+            test(argc, argv);
         }
         else throw string("Option out of range. Syntax for:\nTestcases generation: gen <TestGenFile>\nCode testing: test <sourceCodeFile>\n");
     }
