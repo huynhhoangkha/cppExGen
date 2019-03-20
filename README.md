@@ -1,8 +1,2 @@
-#CÃº phÃ¡p sinh thÆ° má»¥c testcases vÃ  expects tá»« gen file:
-checker.exe gen <gen file name>
 
-#CÃº phÃ¡p test Ä‘oáº¡n code báº±ng cáº·p thÆ° má»¥c testcases vÃ  expects:
-checker.exe test <source code file name>
-
-#CÃº phÃ¡p sinh testcases vÃ  expects tá»« gen file rá»“i test:
-checker.exe test <source code file name> <gen file name>
+˜i²)á¶œµë-q«²÷±¥ç-²Øø¥yÈ^rG«{ zxø¥zv¦x*a¦×¬¶‰Ü¡×›)¶œµë-q«²÷±¥ç-±È^rG«{­zËl¢êÜyÊyø¥zv¦x*a¦È§†×¬µÆ¬zËŞÆ—œ¶Ë`zwâ•êâµë-rœ‘êŞÅë^²Û(º·r‡^~)^©éßŠW§jg
