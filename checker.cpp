@@ -125,7 +125,6 @@ void test(int argc, char* argv[]){
         strcpy(genCommand + idx, "gen"); idx += strlen("gen");
         genCommand[idx++] = ' ';
         strcpy(genCommand + idx, argv[3]);
-        cout << genCommand << endl;
         system(genCommand);
     }
     const char* exerciseFileName = "exercise.exe";
