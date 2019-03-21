@@ -1,3 +1,13 @@
+/*
+	Faculty of Computer Science and Engineering
+	Ho Chi Minh City University of Technology
+	Programming fundamentals - spring 2019
+	Lab 3: 0300.cpp
+	Exercise requirement summary:
+	
+	@author CSE - HCMUT
+	@version 1.0 //2019
+*/
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -6,6 +16,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
+	// Section: read testcase
+	///Student may comment out this section for local testing
 	if (argc < 2) return 0;
 	ifstream fileIn;
 	try {
@@ -23,5 +35,6 @@ int main(int argc, char* argv[]) {
 	catch (const char* errMsg){
 		cerr << errMsg;
 	}
+	// Endsection: read testcase
 	return 0;
 }
