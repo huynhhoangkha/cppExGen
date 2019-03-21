@@ -209,18 +209,30 @@ void test(int argc, char* argv[]){
 	system("del exercise.exe");
 }
 
+void syntaxAnnouce() {
+    cout << "These are possible syntax: " << endl;
+    cout << "checker.exe gen <gen file name>" << endl;
+    cout << "checker.exe test <source code file name>" << endl;
+    cout << "checker.exe test <source code file name> <gen file name>" << endl;
+    cout << "checker.exe out <solution source code> <testcase generator source code>" << endl;
+}
+
 int main(int argc, char* argv[]) {
     try {
-        if (argc < 3) throw string("Lack of arguments. Syntax for:\nTestcases generation: gen <TestGenFile>\nCode testing: test <sourceCodeFile>\n");
+        if (argc < 3) throw string("Lack of arguments.");
         if (strcmp(argv[1], "gen") == 0) gen(argv);
         else if (strcmp(argv[1], "test") == 0) {
             build(argv);
             test(argc, argv);
         }
-        else throw string("Option out of range. Syntax for:\nTestcases generation: gen <TestGenFile>\nCode testing: test <sourceCodeFile>\n");
+        else if (strcmp(argv[1], "output") == 0) {
+
+        }
+        else throw string("Option out of range.");
     }
     catch (string errMsg) {
         cerr << errMsg << endl;
+        syntaxAnnouce();
     }
     return 0;
 }

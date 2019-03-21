@@ -10,3 +10,7 @@ checker.exe test <source code file name>
 ```
 checker.exe test <source code file name> <gen file name>
 ```
+### Release the final outputs
+```
+checker.exe out <solution source code> <testcase generator source code>
+```
