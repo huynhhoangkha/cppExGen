@@ -126,6 +126,7 @@ void test(int argc, char* argv[]){
         genCommand[idx++] = ' ';
         strcpy(genCommand + idx, argv[3]);
         system(genCommand);
+        delete[] genCommand;
     }
     const char* exerciseFileName = "exercise.exe";
     const char* testcasesDir = "testcases";
@@ -165,7 +166,7 @@ void test(int argc, char* argv[]){
             //Deallocate dynamic memory
             delete[] exRunCommand;
 
-            //Read the exercise output
+            //Read the exercise out
             ifstream exOuput;
             exOuput.open("exerciseResult.txt");
             string exerciseOuput;
@@ -175,7 +176,7 @@ void test(int argc, char* argv[]){
             }
             exOuput.close();
 
-            //Read the solution output
+            //Read the solution out
             ifstream expectFile;
             string expectFileName(testcaseFileName);
             expectFileName = string("expects/expect") + expectFileName.substr(8, expectFileName.length() - 12) + string(".txt");
@@ -209,6 +210,41 @@ void test(int argc, char* argv[]){
 	system("del exercise.exe");
 }
 
+void genAndTest(int argc, char* argv[]) {
+    // Check for params
+    if (argc < 4) throw string("Wrong syntax.");
+    // Build the genCode
+    char* buildGenCodeCommand = new char[strlen("g++ -o tgen ") + strlen(argv[3]) + 1];
+    strcpy(buildGenCodeCommand, "g++ -o tgen ");
+    strcpy(buildGenCodeCommand + strlen("g++ -o tgen "), argv[3]);
+    system(buildGenCodeCommand);
+    //cout << buildGenCodeCommand << endl;
+    delete[] buildGenCodeCommand;
+    // Run the genCode for genFile
+    system("tgen.exe>genFile.txt");
+    //cout << "tgen.exe>genFile.txt" << endl;
+    // Run the gen command
+    int idx = 0;
+    char* testCommand = new char[strlen(argv[0]) + strlen("test") + strlen(argv[2]) + strlen("genFile.txt") + 4];
+    strcpy(testCommand, argv[0]); idx += strlen(argv[0]);
+    testCommand[idx++] = ' ';
+    strcpy(testCommand + idx, "test"); idx+= strlen("test");
+    testCommand[idx++] = ' ';
+    strcpy(testCommand + idx, argv[2]); idx+= strlen(argv[2]);
+    testCommand[idx++] = ' ';
+    strcpy(testCommand + idx, "genFile.txt"); idx+= strlen("genFile.txt");
+    // Run the test command
+    system(testCommand);
+    //cout << testCommand << endl;
+    delete[] testCommand;
+    //throw string("pause");
+    system("del tgen.exe");
+}
+
+void produceOuput(int argc, char* argv[]){
+    
+}
+
 void syntaxAnnouce() {
     cout << "These are possible syntax: " << endl;
     cout << "checker.exe gen <gen file name>" << endl;
@@ -225,8 +261,9 @@ int main(int argc, char* argv[]) {
             build(argv);
             test(argc, argv);
         }
-        else if (strcmp(argv[1], "output") == 0) {
-
+        else if (strcmp(argv[1], "out") == 0) {
+            genAndTest(argc, argv);
+            produceOuput(argc, argv);
         }
         else throw string("Option out of range.");
     }
