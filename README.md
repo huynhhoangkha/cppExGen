@@ -14,3 +14,9 @@ checker.exe test <source code file name> <gen file name>
 ```
 checker.exe out <solution source code> <testcase generator source code>
 ```
+### Syntax for replacing #TODO
+```
+// BeginTodo
+<The source code you want to replace with #TODO>
+// EndTodo
+```

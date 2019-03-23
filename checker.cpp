@@ -8,6 +8,7 @@
 #include<fstream>
 #include<windows.h>
 #include<vector>
+#include<ctime>
 using namespace std;
 
 enum GenFileReadingState {READ_TESTCASE_NUMBER, READ_INPUT, READ_EXPECT};
@@ -27,7 +28,7 @@ bool exist(string stringToFind, vector<string> vectorOfString) {
     return false;
 }
 
-void gen(char* argv[]) {
+void gen(int argc, char* argv[]) {
     if (!dirExists(string("testcases"))) system("mkdir testcases");
     if (!dirExists(string("expects"))) system("mkdir expects");
     //Open gen file
@@ -104,7 +105,7 @@ void gen(char* argv[]) {
     genFile.close();
 }
 
-void build(char* argv[]){
+void build(int argc, char* argv[]){
     //Generate build command
     const char* gppEx = "g++ -o exercise ";
     char* exerciseBuildCommand = new char[strlen(gppEx) + strlen(argv[2]) + 1];
@@ -117,6 +118,7 @@ void build(char* argv[]){
 }
 
 void test(int argc, char* argv[]){
+    if (argc < 3) throw string("Lack of arguments.");
     if (argc > 3) {
         char* genCommand = new char[strlen(argv[0]) + strlen("gen") + strlen(argv[3]) + 3];
         int idx = 0;
@@ -241,35 +243,190 @@ void genAndTest(int argc, char* argv[]) {
     system("del tgen.exe");
 }
 
-void produceOuput(int argc, char* argv[]){
-    
+void syntaxAnnouce(int argc, char* argv[]) {
+    cout << "These are possible syntax: " << endl;
+    cout << argv[0] << " gen <gen file name>" << endl;
+    cout << argv[0] << " gen <gen file name>" << endl;
+    cout << argv[0] << " test <source code file name>" << endl;
+    cout << argv[0] << " test <source code file name> <gen file name>" << endl;
+    cout << argv[0] << " out <solution source code> <testcase generator source code>" << endl;
 }
 
-void syntaxAnnouce() {
-    cout << "These are possible syntax: " << endl;
-    cout << "checker.exe gen <gen file name>" << endl;
-    cout << "checker.exe test <source code file name>" << endl;
-    cout << "checker.exe test <source code file name> <gen file name>" << endl;
-    cout << "checker.exe out <solution source code> <testcase generator source code>" << endl;
+string getDirName() {
+    string dirName = "";
+    system("dir>__sysdir.txt");
+    fstream fs;
+    fs.open("__sysdir.txt", ios::in);
+    string line;
+    while (!fs.eof()) {
+        getline(fs, line);
+        if (line.find("Directory of") < string::npos) {
+            int dirNameIndex;
+            int lineLength = line.length();
+            for (dirNameIndex = lineLength - 1; dirNameIndex > 0; dirNameIndex--) {
+                if (line[dirNameIndex] == '\\') break;
+            }
+            dirName = line.substr(dirNameIndex + 1, line.length() - 1);
+            break;
+        }
+    }
+    fs.close();
+    system("del __sysdir.txt");
+    return dirName;
+}
+
+void produceOuput(int argc, char* argv[]){
+    // Todo
+    string dirName = getDirName();
+    ifstream solFile;
+    solFile.open(dirName + string("_sol.cpp"), ios::in);
+    if (solFile.fail()) throw string("Can not open solution file.");
+    ofstream iniFile;
+    iniFile.open(dirName + "_ini.cpp", ios::out);
+    string line;
+    int lineCount = 0;
+    bool inTodoBlock = false;
+    while (!solFile.eof()) {
+        getline(solFile, line);
+        lineCount++;
+        if (line.find(dirName + string("_sol.cpp")) != string::npos)
+            line = string("    Lab ") + dirName.substr(0,2) + string(": ") + dirName + string("_ini.cpp");
+        if (!inTodoBlock) {
+            if (line.find("BeginTodo") != string::npos) inTodoBlock = true;
+            else iniFile << line << endl;
+        }
+        else if (line.find("EndTodo") != string::npos) {
+            int pos = 0;
+            while (line[pos] != '/') {
+                if (line[pos++] == '\t') for (int i = 0; i < 4; i++) iniFile << ' ';
+                else iniFile << ' ';
+            }
+            iniFile << "#TODO" << endl << endl;
+            inTodoBlock = false;
+        }
+    }
+    iniFile.close();
+    solFile.close();
+}
+
+void generateSamples (int argc, char* argv[]) {
+	string testGenFileName;
+    string solFileName;
+    if (argc == 2) {
+        fstream fs;
+        //Get the directory name
+        string dirName = getDirName();
+        //Got directory name, create new files base on the dir name
+        //Generate the sol file
+        fs.open(dirName + string("_sol.cpp"), ios::out);
+        fs << "/**" << endl;
+        fs << "    Faculty of Computer Science and Engineering" << endl;
+        fs << "    Ho Chi Minh City University of Technology" << endl;
+        fs << "    Programming fundamentals - spring 2019" << endl;
+        fs << "    " << "Lab " << dirName.substr(0,2) << ": " <<dirName << "_sol.cpp" << endl;
+        fs << "    @author CSE - HCMUT" << endl;
+        time_t now = time(NULL);
+        fs << "    @version 1.0 " << ctime(&now) << endl;
+        fs << "*/" << endl;
+        fs << "#include <iostream>" << endl;
+        fs << "#include <fstream>" << endl;
+        fs << "#include <string>" << endl;
+        fs << "#include <iomanip>" << endl;
+        fs << "#include <math.h>" << endl;
+        fs << "using namespace std;" << endl;
+        fs << "" << endl;
+        fs << "int main(int argc, char* argv[]) {" << endl;
+        fs << "    // Section: read testcase" << endl;
+        fs << "    ///Student may comment out this section for local testing" << endl;
+        fs << "    if (argc < 2) return 0;" << endl;
+        fs << "    ifstream fileIn;" << endl;
+        fs << "    try {" << endl;
+        fs << "        fileIn.open(argv[1]);" << endl;
+        fs << "        if (fileIn.fail()) throw \"Failed to open file.\";" << endl;
+        fs << "        string line;" << endl;
+        fs << "        int lineCount = 0;" << endl;
+        fs << "        while (!fileIn.eof()){" << endl;
+        fs << "            lineCount++;" << endl;
+        fs << "            getline(fileIn, line);" << endl;
+        fs << "            cout << line << endl;" << endl;
+        fs << "        }" << endl;
+        fs << "        fileIn.close();" << endl;
+        fs << "    }" << endl;
+        fs << "    catch (const char* errMsg){" << endl;
+        fs << "        cerr << errMsg;" << endl;
+        fs << "    }" << endl;
+        fs << "    // Endsection: read testcase" << endl;
+        fs << "    //------------------------------------" << endl;
+        fs << "    // Section: Function call" << endl;
+        fs << "    " << endl;
+        fs << "    // Endsection: Function call" << endl;
+        fs << "    return 0;" << endl;
+        fs << "}" << endl;
+        fs.close();
+        // Generate the testGenFileName
+        fs.open(dirName + string("_testGen.cpp"), ios::out);
+        fs << "/**" << endl;
+        fs << "    Programming fundamentals - spring 2019" << endl;
+        fs << "    Testcase generator for Lab " << dirName.substr(0,2) << ": Question " << dirName << endl;
+        fs << "    @author Huynh Hoang Kha" << endl;
+        fs << "    @version 1.0 " << ctime(&now);
+        fs << "*/" << endl;
+        fs << "#pragma (warning: disable 4996)" << endl;
+        fs << "#include<iostream>" << endl;
+        fs << "#include<iomanip>" << endl;
+        fs << "#include<time.h>" << endl;
+        fs << "using namespace std;" << endl;
+        fs << "" << endl;
+        fs << "int main() {" << endl;
+        fs << "    for (int i = 1; i <= 20; i++) {" << endl;
+        fs << "        cout << \"//=======================\" << endl;" << endl;
+        fs << "        cout << \"testcase\" << i << \":\" << endl;" << endl;
+        fs << "        //-----------------------------------" << endl;
+        fs << "        //Section: Generate the testcase" << endl;
+        fs << "        " << endl;
+        fs << "        //Endsection: Generate the testcase" << endl;
+        fs << "        //-----------------------------------" << endl;
+        fs << "        cout << \"expect:\" << endl;" << endl;
+        fs << "        //-----------------------------------" << endl;
+        fs << "        //Section: Generate the expect" << endl;
+        fs << "        " << endl;
+        fs << "        //Endsection: Generate the expect" << endl;
+        fs << "        //-----------------------------------" << endl;
+        fs << "        cout << \"#end\" << endl;" << endl;
+        fs << "        cout << \"//=======================\";" << endl;
+        fs << "        if (i < 20) cout << endl;" << endl;
+        fs << "    }" << endl;
+        fs << "    return 0;" << endl;
+        fs << "}" << endl;
+        fs.close();
+    }
 }
 
 int main(int argc, char* argv[]) {
     try {
-        if (argc < 3) throw string("Lack of arguments.");
-        if (strcmp(argv[1], "gen") == 0) gen(argv);
+        if (argc < 2) throw string("Lack of arguments.");
+        if (strcmp(argv[1], "gen") == 0) {
+            if (argc < 3) throw string("Lack of arguments.");
+            gen(argc, argv);
+        }
         else if (strcmp(argv[1], "test") == 0) {
-            build(argv);
+            if (argc < 3) throw string("Lack of arguments.");
+            build(argc, argv);
             test(argc, argv);
         }
         else if (strcmp(argv[1], "out") == 0) {
+            if (argc < 3) throw string("Lack of arguments.");
             genAndTest(argc, argv);
             produceOuput(argc, argv);
         }
-        else throw string("Option out of range.");
+        else if (strcmp(argv[1], "init") == 0) {
+            generateSamples(argc, argv);
+        }
+        else throw string("Unknown syntax.");
     }
     catch (string errMsg) {
         cerr << errMsg << endl;
-        syntaxAnnouce();
+        syntaxAnnouce(argc, argv);
     }
     return 0;
 }

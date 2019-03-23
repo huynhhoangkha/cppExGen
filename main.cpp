@@ -1,10 +1,8 @@
-/*
+/**
 	Faculty of Computer Science and Engineering
 	Ho Chi Minh City University of Technology
 	Programming fundamentals - spring 2019
-	Lab 3: 0300.cpp
-	Exercise requirement summary:
-	
+	Lab : .cpp
 	@author CSE - HCMUT
 	@version 1.0 //2019
 */
@@ -36,5 +34,9 @@ int main(int argc, char* argv[]) {
 		cerr << errMsg;
 	}
 	// Endsection: read testcase
+	//------------------------------------
+	// Section: Function call
+	
+	// Endsection: Function call
 	return 0;
 }
