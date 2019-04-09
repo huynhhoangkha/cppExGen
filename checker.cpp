@@ -357,9 +357,6 @@ void generateSamples (int argc, char* argv[]) {
         fs << "    }" << endl;
         fs << "    // Endsection: read testcase" << endl;
         fs << "    //------------------------------------" << endl;
-        fs << "    // Section: Function call" << endl;
-        fs << "    " << endl;
-        fs << "    // Endsection: Function call" << endl;
         fs << "    return 0;" << endl;
         fs << "}" << endl;
         fs.close();
@@ -380,7 +377,7 @@ void generateSamples (int argc, char* argv[]) {
         fs << "int main() {" << endl;
         fs << "    for (int i = 1; i <= 20; i++) {" << endl;
         fs << "        cout << \"//=======================\" << endl;" << endl;
-        fs << "        cout << \"testcase\" << i << \":\" << endl;" << endl;
+        fs << "        cout << \"testcase\" << setw(3) << setfill('0') << i << \":\" << endl;" << endl;
         fs << "        //-----------------------------------" << endl;
         fs << "        //Section: Generate the testcase" << endl;
         fs << "        " << endl;
