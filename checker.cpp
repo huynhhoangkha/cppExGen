@@ -372,6 +372,8 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#include<iostream>" << endl;
         fs << "#include<iomanip>" << endl;
         fs << "#include<time.h>" << endl;
+        fs << "#include<cstring>" << endl;
+        fs << "#include<string>" << endl;
         fs << "using namespace std;" << endl;
         fs << "" << endl;
         fs << "class Integer {" << endl;
