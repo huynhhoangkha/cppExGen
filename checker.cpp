@@ -335,7 +335,7 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#include <iomanip>" << endl;
         fs << "#include <math.h>" << endl;
         fs << "#include <cctype>" << endl;
-        fs << "#define FILENAME" << dirName << "_sol.cpp" << endl;
+        fs << "#define FILENAME " << dirName << "_sol.cpp" << endl;
         fs << "using namespace std;" << endl;
         fs << "" << endl;
         fs << "int main(int argc, char* argv[]) {" << endl;
