@@ -323,7 +323,7 @@ void generateSamples (int argc, char* argv[]) {
         fs << "    Faculty of Computer Science and Engineering" << endl;
         fs << "    Ho Chi Minh City University of Technology" << endl;
         fs << "    Programming fundamentals - spring 2019" << endl;
-        fs << "    " << "Lab " << dirName.substr(0,2) << ": " <<dirName << "_sol.cpp" << endl;
+        fs << "    " << "Lab " << dirName.substr(0,2) << ": " << dirName << "_sol.cpp" << endl;
         fs << "    @author CSE - HCMUT" << endl;
         time_t now = time(NULL);
         fs << "    @version 1.0 " << ctime(&now) << endl;
@@ -331,9 +331,11 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#include <iostream>" << endl;
         fs << "#include <fstream>" << endl;
         fs << "#include <string>" << endl;
+        fs << "#include <cstring>" << endl;
         fs << "#include <iomanip>" << endl;
         fs << "#include <math.h>" << endl;
         fs << "#include <cctype>" << endl;
+        fs << "#define FILENAME" << dirName << "_sol.cpp" << endl;
         fs << "using namespace std;" << endl;
         fs << "" << endl;
         fs << "int main(int argc, char* argv[]) {" << endl;
