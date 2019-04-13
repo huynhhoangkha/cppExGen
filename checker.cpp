@@ -338,7 +338,41 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#define FILENAME \"" << dirName << "_sol.cpp\"" << endl;
         fs << "using namespace std;" << endl;
         fs << "" << endl;
+        //Code check section
+        fs << "bool codeCheck() {" << endl;
+        fs << "    // Define the forbiddenKeyword[]" << endl;
+        fs << "    const char* forbiddenKeyword[] = {\"strcmp\", \"strcpy\" };" << endl;
+        fs << "    // Open file" << endl;
+        fs << "    fstream ifs;" << endl;
+        fs << "    ifs.open(FILENAME, ios::in);" << endl;
+        fs << "    // Get file size" << endl;
+        fs << "    ifs.seekg(0, ifs.end);" << endl;
+        fs << "    int fileSize = ifs.tellg();" << endl;
+        fs << "    ifs.seekg(0, ifs.beg);" << endl;
+        fs << "    // Read file into fileContent array" << endl;
+        fs << "    char* fileContent = new char[fileSize];" << endl;
+        fs << "    ifs.read(fileContent, fileSize);" << endl;
+        fs << "    // Close the file" << endl;
+        fs << "    ifs.close();" << endl;
+        fs << "    // Truncate the irrelevant code" << endl;
+        fs << "    char* temp = strstr(fileContent, \"bool codeCheck() {\");" << endl;
+        fs << "    *temp = '\\0';" << endl;
+        fs << "    // Check the code" << endl;
+        fs << "    int numberOfForbiddenKeyword = sizeof(forbiddenKeyword) / sizeof(const char*);" << endl;
+        fs << "    for (int i = 0; i < numberOfForbiddenKeyword; i++) { if (strstr(fileContent, forbiddenKeyword[i])) return false; }" << endl;
+        fs << "    // Tidy the dynamic mem" << endl;
+        fs << "    delete[] fileContent;" << endl;
+        fs << "    return true;" << endl;
+        fs << "}" << endl;
+        fs << "" << endl;
+        //End code check section
         fs << "int main(int argc, char* argv[]) {" << endl;
+        //Section: Code check call
+        fs << "    if (codeCheck() == false) {" << endl;
+        fs << "        cout << \"Forbidden-keyword rule violation.\" << endl;" << endl;
+        fs << "        return -1;" << endl;
+        fs << "    }" << endl;
+        //Endsection: Code check call
         fs << "    // Section: read testcase" << endl;
         fs << "    ///Student may comment out this section for local testing" << endl;
         fs << "    if (argc < 2) return 0;" << endl;

@@ -12,6 +12,7 @@ void proc(string code) {
             for (int i = 0; i < 4; i++) cout << ' ';
         }
         else if (code[i] == '\"') cout <<"\\\"";
+        else if (code[i] == '\\') cout <<"\\\\";
         else cout << code[i];
     }
     cout << "\" << endl;";
