@@ -289,7 +289,7 @@ void produceOuput(int argc, char* argv[]){
     while (!solFile.eof()) {
         getline(solFile, line);
         lineCount++;
-        if (line.find(dirName + string("_sol.cpp")) != string::npos)
+        if (line.find(dirName + string("_sol.cpp")) != string::npos && line[0] != '#')
             line = string("    Lab ") + dirName.substr(0,2) + string(": ") + dirName + string("_ini.cpp");
         if (!inTodoBlock) {
             if (line.find("BeginTodo") != string::npos) inTodoBlock = true;
