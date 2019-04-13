@@ -333,7 +333,7 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#include <string>" << endl;
         fs << "#include <iomanip>" << endl;
         fs << "#include <math.h>" << endl;
-        fs << "#include<cctype>" << endl;
+        fs << "#include <cctype>" << endl;
         fs << "using namespace std;" << endl;
         fs << "" << endl;
         fs << "int main(int argc, char* argv[]) {" << endl;
