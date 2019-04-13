@@ -333,6 +333,7 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#include <string>" << endl;
         fs << "#include <iomanip>" << endl;
         fs << "#include <math.h>" << endl;
+        fs << "#include<cctype>" << endl;
         fs << "using namespace std;" << endl;
         fs << "" << endl;
         fs << "int main(int argc, char* argv[]) {" << endl;
@@ -374,8 +375,9 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#include<time.h>" << endl;
         fs << "#include<cstring>" << endl;
         fs << "#include<string>" << endl;
+        fs << "#include<cctype>" << endl;
         fs << "using namespace std;" << endl;
-        fs << "" << endl;
+        fs << endl;
         fs << "class Integer {" << endl;
         fs << "    int value;" << endl;
         fs << "    static int width;" << endl;
