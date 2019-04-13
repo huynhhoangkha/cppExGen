@@ -341,27 +341,19 @@ void generateSamples (int argc, char* argv[]) {
         fs << "" << endl;
         //Code check section
         fs << "bool codeCheck() {" << endl;
-        fs << "    // Define the forbiddenKeyword[]" << endl;
         fs << "    const char* forbiddenKeyword[] = {\"strcmp\", \"string \"};" << endl;
-        fs << "    // Open file" << endl;
         fs << "    fstream ifs;" << endl;
         fs << "    ifs.open(FILENAME, ios::in);" << endl;
-        fs << "    // Get file size" << endl;
         fs << "    ifs.seekg(0, ifs.end);" << endl;
         fs << "    int fileSize = ifs.tellg();" << endl;
         fs << "    ifs.seekg(0, ifs.beg);" << endl;
-        fs << "    // Read file into fileContent array" << endl;
         fs << "    char* fileContent = new char[fileSize];" << endl;
         fs << "    ifs.read(fileContent, fileSize);" << endl;
-        fs << "    // Close the file" << endl;
         fs << "    ifs.close();" << endl;
-        fs << "    // Truncate the irrelevant code" << endl;
         fs << "    *strstr(fileContent, \"bool codeCheck() {\") = '\\0';" << endl;
         fs << "    char* todoSegment = strstr(fileContent ,\"// Begin implementation\");" << endl;
-        fs << "    // Check the code" << endl;
         fs << "    int numberOfForbiddenKeyword = sizeof(forbiddenKeyword) / sizeof(const char*);" << endl;
         fs << "    for (int i = 0; i < numberOfForbiddenKeyword; i++) { if (strstr(todoSegment, forbiddenKeyword[i])) return false; }" << endl;
-        fs << "    // Tidy the dynamic mem" << endl;
         fs << "    delete[] fileContent;" << endl;
         fs << "    return true;" << endl;
         fs << "}" << endl;
