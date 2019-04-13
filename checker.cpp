@@ -343,7 +343,9 @@ void generateSamples (int argc, char* argv[]) {
         fs << "bool codeCheck() {" << endl;
         fs << "    const char* forbiddenKeyword[] = {\"strcmp\", \"string \"};" << endl;
         fs << "    fstream ifs;" << endl;
-        fs << "    ifs.open(FILENAME, ios::in);" << endl;
+        fs << "    ifs.open(\"main.cpp\", ios::in);" << endl;
+        fs << "    if (ifs.fail()) ifs.open(FILENAME, ios::in);" << endl;
+        fs << "    if (ifs.fail()) return true;" << endl;
         fs << "    ifs.seekg(0, ifs.end);" << endl;
         fs << "    int fileSize = ifs.tellg();" << endl;
         fs << "    ifs.seekg(0, ifs.beg);" << endl;
