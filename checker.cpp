@@ -337,11 +337,12 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#include <cctype>" << endl;
         fs << "#define FILENAME \"" << dirName << "_sol.cpp\"" << endl;
         fs << "using namespace std;" << endl;
+        fs << "// Begin implementation" << endl;
         fs << "" << endl;
         //Code check section
         fs << "bool codeCheck() {" << endl;
         fs << "    // Define the forbiddenKeyword[]" << endl;
-        fs << "    const char* forbiddenKeyword[] = {\"strcmp\", \"strcpy\" };" << endl;
+        fs << "    const char* forbiddenKeyword[] = {\"strcmp\", \"string \"};" << endl;
         fs << "    // Open file" << endl;
         fs << "    fstream ifs;" << endl;
         fs << "    ifs.open(FILENAME, ios::in);" << endl;
@@ -355,11 +356,11 @@ void generateSamples (int argc, char* argv[]) {
         fs << "    // Close the file" << endl;
         fs << "    ifs.close();" << endl;
         fs << "    // Truncate the irrelevant code" << endl;
-        fs << "    char* temp = strstr(fileContent, \"bool codeCheck() {\");" << endl;
-        fs << "    *temp = '\\0';" << endl;
+        fs << "    *strstr(fileContent, \"bool codeCheck() {\") = '\\0';" << endl;
+        fs << "    char* todoSegment = strstr(fileContent ,\"// Begin implementation\");" << endl;
         fs << "    // Check the code" << endl;
         fs << "    int numberOfForbiddenKeyword = sizeof(forbiddenKeyword) / sizeof(const char*);" << endl;
-        fs << "    for (int i = 0; i < numberOfForbiddenKeyword; i++) { if (strstr(fileContent, forbiddenKeyword[i])) return false; }" << endl;
+        fs << "    for (int i = 0; i < numberOfForbiddenKeyword; i++) { if (strstr(todoSegment, forbiddenKeyword[i])) return false; }" << endl;
         fs << "    // Tidy the dynamic mem" << endl;
         fs << "    delete[] fileContent;" << endl;
         fs << "    return true;" << endl;
