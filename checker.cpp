@@ -442,7 +442,7 @@ void generateSamples (int argc, char* argv[]) {
         fs << endl;
         fs << "int main() {" << endl;
         fs << "    Integer count = 0;" << endl;
-        fs << "    for (int i = 1; i <= 20; i++) {" << endl;
+        fs << "    for (int i = 0; i < 20; i++) {" << endl;
         fs << "        cout << \"//=======================\" << endl;" << endl;
         fs << "        count = count + 1;" << endl;
         fs << "        cout << \"testcase\" << count << \":\" << endl;" << endl;
@@ -459,7 +459,7 @@ void generateSamples (int argc, char* argv[]) {
         fs << "        //-----------------------------------" << endl;
         fs << "        cout << \"#end\" << endl;" << endl;
         fs << "        cout << \"//=======================\";" << endl;
-        fs << "        if (i < 20) cout << endl;" << endl;
+        fs << "        cout << endl;" << endl;
         fs << "    }" << endl;
         fs << "    return 0;" << endl;
         fs << "}" << endl;
