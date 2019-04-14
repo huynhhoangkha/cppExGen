@@ -337,11 +337,13 @@ void generateSamples (int argc, char* argv[]) {
         fs << "#include <cctype>" << endl;
         fs << "#define FILENAME \"" << dirName << "_sol.cpp\"" << endl;
         fs << "using namespace std;" << endl;
+        fs << "//----------------------------------------------" << endl;
         fs << "// Begin implementation" << endl;
+        fs << "//----------------------------------------------" << endl;
         fs << "" << endl;
         //Code check section
         fs << "bool codeCheck() {" << endl;
-        fs << "    const char* forbiddenKeyword[] = {\"strcmp\", \"string \"};" << endl;
+        fs << "    const char* forbiddenKeyword[] = {\"include\"};" << endl;
         fs << "    fstream ifs;" << endl;
         fs << "    ifs.open(\"main.cpp\", ios::in);" << endl;
         fs << "    if (ifs.fail()) ifs.open(FILENAME, ios::in);" << endl;
