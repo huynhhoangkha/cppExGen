@@ -32,9 +32,9 @@ g++ -o pf checker.cpp
 ```
 ### MinGW download link
 ```
-Get MinGW from [sourceforge.net](https://sourceforge.net/projects/mingw/)
+https://sourceforge.net/projects/mingw/
 ```
 ### How to add an environment variable in Windows 10?
 ```
-See article [guide](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/) for guides
+https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/
 ```
