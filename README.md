@@ -20,3 +20,17 @@ checker.exe out <solution source code> <testcase generator source code>
 <The source code you want to replace with #TODO>
 // EndTodo
 ```
+### If your machine lacks of some *.dll, please clone this code and re-compile
+```
+g++ -o gradeByExe gradeByExe.cpp
+```
+```
+g++ -o gradeByCode gradeByCode.cpp
+```
+```
+g++ -o pf checker.cpp
+```
+### MinGW download link
+```
+https://sourceforge.net/projects/mingw/
+```

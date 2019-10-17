@@ -246,7 +246,6 @@ void genAndTest(int argc, char* argv[]) {
 void syntaxAnnouce(int argc, char* argv[]) {
     cout << "These are possible syntax: " << endl;
     cout << argv[0] << " gen <gen file name>" << endl;
-    cout << argv[0] << " gen <gen file name>" << endl;
     cout << argv[0] << " test <source code file name>" << endl;
     cout << argv[0] << " test <source code file name> <gen file name>" << endl;
     cout << argv[0] << " out <solution source code> <testcase generator source code>" << endl;
