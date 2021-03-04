@@ -450,13 +450,13 @@ void generateSamples (int argc, char* argv[]) {
         fs << "        " << endl;
         fs << "        //Endsection: Generate the testcase" << endl;
         fs << "        //-----------------------------------" << endl;
-        fs << "        cout << \"expect:\" << endl;" << endl;
+        fs << "        cout << endl << \"expect:\" << endl;" << endl;
         fs << "        //-----------------------------------" << endl;
         fs << "        //Section: Generate the expect" << endl;
         fs << "        " << endl;
         fs << "        //Endsection: Generate the expect" << endl;
         fs << "        //-----------------------------------" << endl;
-        fs << "        cout << \"#end\" << endl;" << endl;
+        fs << "        cout << endl << \"#end\" << endl;" << endl;
         fs << "        cout << \"//=======================\";" << endl;
         fs << "        cout << endl;" << endl;
         fs << "    }" << endl;
