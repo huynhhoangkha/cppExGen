@@ -1,8 +1,9 @@
-# First note
+# First notes
 - This project was created to support the process of making single-source-file cpp excercises.
 - It can run only on Windows. <br>
+- It does not support Windows Power Shell, please use the Cmd
 
-# How to install this tool?
+# Installation
 **Step 1**: Download or clone this repository, put the folder into where you have executing permission. <br>
 **Step 2**: Get the absolute path to the containing folder of the executable file, in this case, the `pf.exe` <br>
 **Step 3**: Add the path you've got from the step above into the `path` environment variable. If you don't know how, refer to this guide:
@@ -38,13 +39,32 @@ If you still get an error, please check if you've installed the g++ compiler pro
 https://sourceforge.net/projects/mingw/
 ```
 
-# How does this program work?
+# User's guide
 During the process, you would be working with these files:
 - `<containingFolderName>_testGen.cpp`
 - `<containingFolderName>_sol.cpp`
 - Gen-file: A text file written in a specific format. This file is used as materials to create pairs of `testcase` and `expect` files for the grading process. The gen-file can be created either manually or automatically. The `<containingFolderName>_testGen.cpp` is a sample source code that you can use to generate the gen-file automatically. The automatically generated gen-file is named `genFile.txt` by default.
 
+## Initialize an exercise
+**Step 1**: Create a containing folder and name it with the name of your exercise <br>
+**Step 2**: Open a cmd session <br>
+**Step 3**: Navigate into the containing folder created in step 1 <br>
+**Step 4**: Run the following command <br>
+```
+pf init
+```
+After executing the command above, there should be two files generated
+```
+<containingFolderName>_testGen.cpp
+<containingFolderName>_sol.cpp
+```
+
+The file `<containingFolderName>_testGen.cpp` is sample source code that you may use to generate testcases automatically and the file `<containingFolderName>_sol.cpp` is a template of the solution to the exercise.<br>
+
+Before learning how to use these sample sources, let's take a look on how does this tool generate testcases and test the solution source.
 ## Gen-file syntax
+This tool offers a way to generate pairs of `testcase` and `expect` files using gen-files (explained earlier).<br>
+Its syntax is as follow:
 ```
 // Some comments
 testcase<testcaseName>:
@@ -60,10 +80,12 @@ expect:
 <Content of the expected result>
 #end
 // Some comments
-
-...
+// ...
 ```
-*Note: The `content of the testcase` and the `content of the expected result` **MUST NOT** contain any comment. If you write any comments there, they will NOT be the treated as comments but plain texts :D*
+>*Note: The `content of the testcase` and the `content of the expected result` **MUST NOT** contain any comment. If you write any comments there, they will NOT be the treated as comments but plain texts :D*
+
+
+>*Note: You had better be careful with any characters including non-graphical ones in the `content of the testcase` and the `content of the expected result` because they are plain texts and any redundancies are considered wrong.*
 ## Gen-file example
 ### Problem: Find the absolute value of integer numbers
 - Input: A text file containing an integer number
@@ -87,38 +109,78 @@ expect:
 #end
 //--------------
 ```
-
-## Initialize an exercise
-**Step 1**: Create a containing folder and name it with the name of your exercise <br>
-**Step 2**: Open a cmd session <br>
-**Step 3**: Navigate into the containing folder created in step 1 <br>
-**Step 4**: Run the following command <br>
-```
-pf init
-```
-After executing the command above, there should be two files generated
-```
-<containingFolderName>_testGen.cpp
-<containingFolderName>_sol.cpp
-```
-
-The file `<containingFolderName>_testGen.cpp` is sample source code that you may use to generate testcases automatically and the file `<containingFolderName>_sol.cpp` is a template of the solution to the exercise.<br>
-
 ## Generate testcases from gen file
+In the directory containing the gen-file, run:
 ```
-checker.exe gen <gen file name>
+pf gen <gen file name>
 ```
-## Test the source code using the existing testcases
+After running the command above, there would be two folders named `testcases` and `expects` respectively. <br>
+As mentioned earlier, each testcase has two parts: `content of the testcase` and `content of the expected result`. Those parts would be separated from each other and put into the corresponding folders. <br><br>
+If you generate testcases using the example gen-file given in the previous section, in the `testcases` folder, there would be two files:
 ```
-checker.exe test <source code file name>
+testcase000.txt
+testcase001.txt
 ```
-## Generate testcases and then test the source code
+and in the `expects` folder, there would be:
 ```
-checker.exe test <source code file name> <gen file name>
+expect000.txt
+expect001.txt
 ```
-## Release the final outputs
+
+## Implement the solution to the exercise
+Okay, we have learned how to write a gen-file and generate testcases using the tool. Now, what remaining is to implement the solution source code and test it out.
+
+
+> Todo
+
+
+## Test a solution source code using the existing testcases
 ```
-checker.exe out <solution source code> <testcase generator source code>
+pf.exe test <source code file name>
+```
+This command will compile the solution source code and then run it with testcase files in the `testcases` folder, one file at a time. After executing the solution with each testcase file, the tool will compare the executing result with the content of the corresponding expect-file in the `expects` folder. If they completely match (including non-graphical characters), the tool will announce: `PASSED`. Or else, it will announce the differences between the executing result from the expected one.
+> *Note: If the result is FAILED but you don't see anything different from the executing result and the expected one, there may be some non-graphical character redundancies. In this case, you should export the testing result into a log file and then compare the differences using any simple comparison tools.*
+
+```
+pf.exe test <source code file name> > log.txt
+```
+## Generate testcases and then test the solution source code using a single command
+In the case you have a solution source file and you also have a gen-file already, you can generate testcases and then test the solution source code using only one command:
+```
+pf test <source code file name> <gen file name>
+```
+Of course, you can generate the testcases and then test the solution source code using the two previously introduced commands in sequence:
+>`pf gen <gen file name>`
+
+>`pf.exe test <source code file name>`
+
+
+But using this combined command saves your time.
+
+## Creating gen-file automatically using the `<containingFolderName>_testGen.cpp` sample source code
+### Number of the testcases
+In the `<containingFolderName>_testGen.cpp` file, find the following macro in the header part:
+```
+#define NUMBER_OF_TESTCASES 20
+```
+This is the number of testcases that you want to generate. You can re-define it if you want more or fewer testcases.
+
+### Generate the gen-file
+In the `main` function of the `<containingFolderName>_testGen.cpp` file, there is a `FOR loop`. The body of the loop is where you write your code to generate **ONE** testcase.<br>
+
+After finished implementing the `<containingFolderName>_testGen.cpp` file, run the following command to generate a gen-file:
+```
+g++ -o testGen.exe <containingFolderName>_testGen.cpp
+```
+
+```
+testGen
+```
+
+## Release the exercise frame
+
+```
+pf out <solution source code> <testcase generator source code>
 ```
 ## Syntax for replacing #TODO
 ```
