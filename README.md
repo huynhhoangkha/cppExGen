@@ -1,3 +1,23 @@
+### How does this program work?
+
+
+
+### Initialize an exercise:
+Step 1: Create a containing folder and name it with the name of your exercise
+Step 2: Navigate into the containing folder created in step 1
+Step 3: Open a cmd session
+Step 4: Run the following command
+```
+pf init
+```
+After executing the command above, there should be two files generated
+```
+<containingFolderName>_testGen.cpp
+<containingFolderName>_sol.cpp
+```
+
+The file `<containingFolderName>_testGen.cpp` is a template of a program that you may use to generate testcases automatically and the file `<containingFolderName>_sol.cpp` is a template of the solution to the exercise.
+
 ### Generate testcases from gen file
 ```
 checker.exe gen <gen file name>
