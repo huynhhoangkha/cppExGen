@@ -198,3 +198,34 @@ Finally, to generate a source frame, run:
 pf out <solution source code> <auto testcase generating source code>
 ```
 If there is no error, a file named `<containingFolderName>_init.cpp` would be generated. This file contains everything you wrote in the `<containingFolderName>_sol.cpp` except for segments that you wrapped in the `// BeginTodo` and `// EndTodo` comments pair. Give the `init` file to students together with the exercise description and they will do it!
+
+## Forbidden text
+In some cases, you may want students not to use some functions or some objects or something else in their solutions. If so, you can add the forbidden texts into the `forbiddenKeyword[]` array found in the `codeCheck()` function. The tool will scan the code between the following comment:
+```
+//----------------------------------------------
+// Begin implementation
+//----------------------------------------------
+```
+and the `codeCheck()` function:
+```
+bool codeCheck() {
+    const char* forbiddenKeyword[] = {"someText", "someOtherText"};
+    fstream ifs;
+    ifs.open("main.cpp", ios::in);
+    if (ifs.fail()) ifs.open(FILENAME, ios::in);
+    if (ifs.fail()) return true;
+    ifs.seekg(0, ifs.end);
+    int fileSize = ifs.tellg();
+    ifs.seekg(0, ifs.beg);
+    char* fileContent = new char[fileSize];
+    ifs.read(fileContent, fileSize);
+    ifs.close();
+    *strstr(fileContent, "bool codeCheck() {") = '\0';
+    char* todoSegment = strstr(fileContent ,"// Begin implementation");
+    int numberOfForbiddenKeyword = sizeof(forbiddenKeyword) / sizeof(const char*);
+    for (int i = 0; i < numberOfForbiddenKeyword; i++) { if (strstr(todoSegment, forbiddenKeyword[i])) return false; }
+    delete[] fileContent;
+    return true;
+}
+```
+If any forbidden texts found there, the test will return with failure. OMG =)))))
