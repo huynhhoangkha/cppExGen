@@ -177,7 +177,7 @@ In the `main` function of the `<containingFolderName>_testGen.cpp` file, there i
 
 After finished implementing the `<containingFolderName>_testGen.cpp` file, run the following command to generate a gen-file:
 ```
-g++ -o testGen.exe <containingFolderName>_testGen.cpp
+g++ -o testGen <containingFolderName>_testGen.cpp
 ```
 
 ```
