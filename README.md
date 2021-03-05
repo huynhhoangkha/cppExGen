@@ -91,7 +91,7 @@ expect:
 - Input: A text file containing an integer number
 - Expected output: A text file containing an integer whose the value which is the absolute value of the input. <br>
   
-The conten of the gen-file may be as follow:
+The content of the gen-file may be as follow:
 ```
 //--------------
 testcase000:
@@ -130,10 +130,17 @@ expect001.txt
 ## Implement the solution to the exercise
 Okay, we have learned how to write a gen-file and generate testcases using the tool. Now, what remaining is to implement the solution source code and test it out.
 
+### The `main` function
+As explained earlier somewhere in this documentation =]]]], during the grading process, the tool compiles the solution source code into an executable file and then runs it to check the output. The testcase files in the `testcases` folder are used one by one to test the solution. So how does the executable file know the existence of these testcase files? The answer is, the tool scans the `testcases` folder to get a list of files whose the `"testcase"` prefix and then passes them **one by one** to the executable file when executing it using the following command-line syntax:
+```
+<executable solution file name> <testcase file name>
+```
+So now you understand my idea, right? The `testcase file name` would be a `c-string` and its address is held in `argv[1]`!<br>
 
-> Todo
-
-
+If you are preparing an exercise, you will need to write a stuff of code that:
+- Opens and reads the testcase file
+- Passes the testcase to the function where you will write the solution, and of course don't forget to implement it! =)))) LOL
+- Print out the output in the format specified by the exercise if you want to help students do that.
 ## Test a solution source code using the existing testcases
 ```
 pf.exe test <source code file name>
@@ -178,13 +185,16 @@ testGen
 ```
 
 ## Release the exercise frame
-
-```
-pf out <solution source code> <testcase generator source code>
-```
-## Syntax for replacing #TODO
+### The `Todo` blocks
+In your solution source code, put the code segment that you want it to be replaced with `#TODO` in the `// BeginTodo` and `// EndTodo` comments pair as follow:
 ```
 // BeginTodo
-<The source code you want to replace with #TODO>
+<The code segment you want to replace with #TODO>
 // EndTodo
 ```
+
+Finally, to generate a source frame, run:
+```
+pf out <solution source code> <auto testcase generating source code>
+```
+If there is no error, a file named `<containingFolderName>_init.cpp` would be generated. This file contains everything you wrote in the `<containingFolderName>_sol.cpp` except for segments that you wrapped in the `// BeginTodo` and `// EndTodo` comments pair. Give the `init` file to students together with the exercise description and they will do it!
