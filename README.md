@@ -181,7 +181,7 @@ g++ -o testGen <containingFolderName>_testGen.cpp
 ```
 
 ```
-testGen
+testGen > <txtGenFileNameAnyAsYouWant>
 ```
 
 ## Release the exercise frame
